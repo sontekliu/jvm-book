@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="02-jvm-classloader-static-attr.html" />
+    
     
     <link rel="prev" href="../" />
     
@@ -111,6 +113,38 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="02-jvm-classloader-static-attr.html">
+            
+                <a href="02-jvm-classloader-static-attr.html">
+            
+                    
+                    1.1 类的静态属性
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="03-jvm-classloader-final.html">
+            
+                <a href="03-jvm-classloader-final.html">
+            
+                    
+                    1.2 类的常量
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
 
@@ -158,8 +192,19 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="jvm-&#x7C7B;&#x52A0;&#x8F7D;">JVM &#x7C7B;&#x52A0;&#x8F7D;</h1>
-<p>&#x5728; java &#x4EE3;&#x7801;&#x4E2D;&#xFF0C;&#x7C7B;&#x578B;(&#x4E0D;&#x662F;&#x5BF9;&#x8C61;)&#x7684;&#x52A0;&#x8F7D;&#x3001;&#x8FDE;&#x63A5;&#x3001;&#x521D;&#x59CB;&#x5316;&#x8FC7;&#x7A0B;&#x90FD;&#x662F;&#x5728;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x5B8C;&#x6210;&#x7684;&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3001;&#x589E;&#x52A0;&#x4E86;&#x66F4;&#x591A;&#x7684;&#x53EF;&#x80FD;</p>
+                                <h1 id="jvm-&#x7C7B;&#x52A0;&#x8F7D;classloader">JVM &#x7C7B;&#x52A0;&#x8F7D;(classloader)</h1>
+<h3 id="1-&#x7C7B;&#x7684;&#x52A0;&#x8F7D;">1. &#x7C7B;&#x7684;&#x52A0;&#x8F7D;</h3>
+<p>&#x7C7B;&#x7684;&#x52A0;&#x8F7D;&#x662F;&#x6307;&#x5C06;&#x7C7B;&#x7684; .class &#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x8BFB;&#x5165;&#x5230;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x5C06;&#x5176;&#x653E;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6570;&#x636E;&#x533A;&#x7684;&#x65B9;&#x6CD5;&#x533A;&#x5185;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; java.lang.Class &#x5BF9;&#x8C61;&#xFF08;&#x89C4;&#x8303;&#x5E76;&#x672A;&#x8BF4;&#x660E;Class &#x5BF9;&#x8C61;&#x4F4D;&#x4E8E;&#x54EA;&#x91CC;&#xFF0C;HotSpot &#x865A;&#x62DF;&#x673A;&#x5C06;&#x5176;&#x653E;&#x5728;&#x65B9;&#x6CD5;&#x533A;&#x4E2D;&#xFF09; &#x7528;&#x6765;&#x5C01;&#x88C5;&#x7C7B;&#x5728;&#x65B9;&#x6CD5;&#x533A;&#x5185;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+<h3 id="2-&#x52A0;&#x8F7D;-class-&#x6587;&#x4EF6;&#x7684;&#x65B9;&#x5F0F;">2. &#x52A0;&#x8F7D; .class &#x6587;&#x4EF6;&#x7684;&#x65B9;&#x5F0F;</h3>
+<ul>
+<li>&#x4ECE;&#x672C;&#x5730;&#x7CFB;&#x7EDF;&#x76F4;&#x63A5;&#x52A0;&#x8F7D; (&#x6700;&#x5E38;&#x89C1;)</li>
+<li>&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x4E0B;&#x8F7D; .class &#x6587;&#x4EF6;</li>
+<li>&#x4ECE; zip&#x3001;jar &#x7B49;&#x5F52;&#x6863;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x8F7D; .class &#x6587;&#x4EF6;</li>
+<li>&#x4ECE;&#x4E13;&#x6709;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x63D0;&#x53D6; .class &#x6587;&#x4EF6;</li>
+<li>&#x5C06; Java &#x539F;&#x6587;&#x4EF6;&#x52A8;&#x6001;&#x7F16;&#x8BD1;&#x4E3A; .class &#x6587;&#x4EF6;</li>
+</ul>
+<h3 id="3-&#x7C7B;&#x52A0;&#x8F7D;&#x8FC7;&#x7A0B;">3. &#x7C7B;&#x52A0;&#x8F7D;&#x8FC7;&#x7A0B;</h3>
+<p>&#x5728; Java &#x4EE3;&#x7801;&#x4E2D;&#xFF0C;class &#x7C7B;(<strong>&#x6CE8;&#x610F;&#x4E0D;&#x662F;&#x5BF9;&#x8C61;</strong>)&#x52A0;&#x8F7D;&#x5230;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x5927;&#x7EA6;&#x5206;&#x4E09;&#x4E2A;&#x6B65;&#x9AA4;&#xFF1A;&#x52A0;&#x8F7D;&#x3001;&#x8FDE;&#x63A5;&#x3001;&#x521D;&#x59CB;&#x5316;&#x3002;&#x8FD9;&#x4E9B;&#x8FC7;&#x7A0B;&#x90FD;&#x662F;&#x5728;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x5B8C;&#x6210;&#x7684;&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3001;&#x589E;&#x52A0;&#x4E86;&#x66F4;&#x591A;&#x7684;&#x53EF;&#x80FD;&#x3002;</p>
 <ul>
 <li>&#x52A0;&#x8F7D;&#xFF1A;&#x67E5;&#x627E;&#x5E76;&#x52A0;&#x8F7D;&#x7C7B;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;</li>
 <li>&#x8FDE;&#x63A5;&#xFF1A;<ul>
@@ -168,49 +213,31 @@
 <li>&#x89E3;&#x6790;&#xFF1A;<strong>&#x628A;&#x7C7B;&#x4E2D;&#x7684;&#x7B26;&#x53F7;&#x5F15;&#x7528;&#x8F6C;&#x5316;&#x4E3A;&#x76F4;&#x63A5;&#x5F15;&#x7528;</strong></li>
 </ul>
 </li>
-<li>&#x521D;&#x59CB;&#x5316;&#xFF1A;&#x4E3A;&#x7C7B;&#x7684;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x8D4B;&#x4E88;&#x6B63;&#x786E;&#x7684;&#x521D;&#x59CB;&#x503C;   </li>
+<li>&#x521D;&#x59CB;&#x5316;&#xFF1A;&#x4E3A;&#x7C7B;&#x7684;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x8D4B;&#x4E88;&#x6B63;&#x786E;&#x7684;&#x521D;&#x59CB;&#x503C;</li>
 <li>&#x4F7F;&#x7528;</li>
-<li>&#x5378;&#x8F7D;:&#x5C06;&#x7C7B;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x79FB;&#x9664;&#xFF0C;&#x5982;&#x679C;&#x5C06;&#x7C7B;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x79FB;&#x9664;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x4E0D;&#x80FD;&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x7C7B;&#x521B;&#x5EFA;&#x5B9E;&#x4F8B;&#x3002;</li>
+<li>&#x5378;&#x8F7D;&#xFF1A;&#x5C06;&#x7C7B;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x79FB;&#x9664;&#xFF0C;&#x5982;&#x679C;&#x5C06;&#x7C7B;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x79FB;&#x9664;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x4E0D;&#x80FD;&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x7C7B;&#x521B;&#x5EFA;&#x5B9E;&#x4F8B;&#x3002;</li>
 </ul>
-<p>&#x5728;&#x5982;&#x4E0B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;java &#x865A;&#x62DF;&#x673A;&#x4F1A;&#x7ED3;&#x675F;&#x751F;&#x547D;&#x5468;&#x671F;:</p>
+<h3 id="4-&#x4E3B;&#x52A8;&#x4F7F;&#x7528;">4. &#x4E3B;&#x52A8;&#x4F7F;&#x7528;</h3>
+<p>&#x6240;&#x6709; Java &#x865A;&#x62DF;&#x673A;&#x7684;&#x5B9E;&#x73B0;&#x5FC5;&#x987B;&#x5728;&#x6BCF;&#x4E2A;&#x7C7B;&#x6216;&#x8005;&#x63A5;&#x53E3;&#x88AB; Java &#x7A0B;&#x5E8F;&#x300E;&#x9996;&#x6B21;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x300F;&#x65F6;&#x624D;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x4EEC;&#x3002;<br>Java &#x7A0B;&#x5E8F;&#x5BF9;&#x7C7B;&#x7684;&#x4F7F;&#x7528;&#x5206;&#x4E3A;&#x4E24;&#x79CD;&#xFF0C;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x548C;&#x88AB;&#x52A8;&#x4F7F;&#x7528;&#x3002;&#x53EA;&#x6709;&#x5BF9;&#x7C7B;&#x7684;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x624D;&#x4F1A;&#x5BFC;&#x81F4;&#x7C7B;&#x7684;<strong>&#x521D;&#x59CB;&#x5316;</strong>&#x3002;&#x5176;&#x4E2D;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x4E3B;&#x8981;&#x5305;&#x62EC;&#xFF1A;</p>
 <ol>
-<li>&#x6267;&#x884C;&#x4E86; System.exit() &#x65B9;&#x6CD5;</li>
-<li>&#x7A0B;&#x5E8F;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#x7ED3;&#x675F;</li>
-<li>&#x7A0B;&#x5E8F;&#x5728;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x4E86;&#x5F02;&#x5E38;&#x6216;&#x8005;&#x9519;&#x8BEF;&#x800C;&#x5BFC;&#x81F4;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;</li>
-<li>&#x7531;&#x4E8E;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x9519;&#x8BEF;&#x800C;&#x5BFC;&#x81F4; java &#x865A;&#x62DF;&#x673A;&#x8FDB;&#x7A0B;&#x7EC8;&#x6B62;</li>
-</ol>
-<p>Java &#x7A0B;&#x5E8F;&#x5BF9;&#x7C7B;&#x7684;&#x4F7F;&#x7528;&#x5206;&#x4E3A;&#x4E24;&#x79CD;&#xFF0C;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x548C;&#x88AB;&#x52A8;&#x4F7F;&#x7528;&#x3002;  </p>
-<ul>
-<li><p>&#x4E3B;&#x52A8;&#x4F7F;&#x7528;</p>
-<ul>
 <li>&#x521B;&#x5EFA;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;</li>
 <li>&#x8BBF;&#x95EE;&#x67D0;&#x4E2A;&#x7C7B;&#x6216;&#x8005;&#x63A5;&#x53E3;&#x7684;&#x9759;&#x6001;&#x53D8;&#x91CF;&#xFF0C;&#x6216;&#x8005;&#x5BF9;&#x8BE5;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x8D4B;&#x503C;(getstatic, putstatic)</li>
 <li>&#x8C03;&#x7528;&#x7C7B;&#x7684;&#x9759;&#x6001;&#x65B9;&#x6CD5;(invokestatic)</li>
 <li>&#x53CD;&#x5C04;&#xFF0C;&#x5982; Class.forName(&quot;com.java.String&quot;)</li>
 <li>&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;</li>
 <li>Java &#x865A;&#x62DF;&#x673A;&#x542F;&#x52A8;&#x65F6;&#x88AB;&#x6807;&#x660E;&#x4E3A;&#x542F;&#x52A8;&#x7C7B;&#x7684;&#x7C7B;&#xFF0C;&#x5373;&#x7531; main &#x65B9;&#x6CD5;&#x7684;&#x7C7B;</li>
-<li>JDK1.7 &#x5F00;&#x59CB;&#x63D0;&#x4F9B;&#x7684;&#x5BF9;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#x7684;&#x5BF9;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#x7684;&#x652F;&#x6301;&#xFF1A;
-java.lang.invoke.MethodHandle &#x5B9E;&#x4F8B;&#x7684;&#x89E3;&#x6790;&#x7ED3;&#x679C;REF_getStatic&#x3001;REF_putStatic&#x3001;REF_invokeStatic &#x53E5;&#x67C4;&#x5BF9;&#x5E94;&#x7684;&#x7C7B;&#x6CA1;&#x6709;&#x521D;&#x59CB;&#x5316;&#x5219;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x4EEC;&#x3002;</li>
-</ul>
-</li>
-<li><p>&#x88AB;&#x52A8;&#x4F7F;&#x7528;
-  &#x9664;&#x4E86;&#x4EE5;&#x4E0A; 7 &#x79CD;&#x65B9;&#x5F0F;&#x4E4B;&#x5916;&#xFF0C;&#x5176;&#x4ED6;&#x4F7F;&#x7528;&#x7C7B;&#x7684;&#x65B9;&#x5F0F;&#x5747;&#x88AB;&#x79F0;&#x4E3A;&#x5BF9;&#x7C7B;&#x7684;&#x88AB;&#x52A8;&#x4F7F;&#x7528;&#xFF0C;&#x90FD;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x7C7B;&#x7684;<strong>&#x521D;&#x59CB;&#x5316;</strong></p>
-</li>
-</ul>
-<p>&#x6240;&#x6709; Java &#x865A;&#x62DF;&#x673A;&#x7684;&#x5B9E;&#x73B0;&#x5FC5;&#x987B;&#x5728;&#x6BCF;&#x4E2A;&#x7C7B;&#x6216;&#x8005;&#x63A5;&#x53E3;&#x88AB; Java &#x7A0B;&#x5E8F;&#x300E;&#x9996;&#x6B21;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x300F;&#x65F6;&#x624D;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x4EEC;</p>
-<ul>
-<li>&#x7C7B;&#x7684;&#x52A0;&#x8F7D;<br>&#x7C7B;&#x7684;&#x52A0;&#x8F7D;&#x662F;&#x6307;&#x5C06;&#x7C7B;&#x7684;.class &#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x8BFB;&#x5165;&#x5230;&#x5185;&#x5B58;&#x79CD;&#xFF0C;&#x5C06;&#x5176;&#x653E;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6570;&#x636E;&#x533A;&#x7684;&#x65B9;&#x6CD5;&#x533A;&#x5185;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x5185;&#x5B58;&#x4E2D;
-&#x521B;&#x5EFA;&#x4E00;&#x4E2A; java.lang.Class &#x5BF9;&#x8C61;&#xFF08;&#x89C4;&#x8303;&#x5E76;&#x672A;&#x8BF4;&#x660E;Class &#x5BF9;&#x8C61;&#x4F4D;&#x4E8E;&#x54EA;&#x91CC;&#xFF0C;HotSpot &#x865A;&#x62DF;&#x673A;&#x5C06;&#x5176;&#x653E;&#x5728;&#x65B9;&#x6CD5;&#x533A;&#x4E2D;&#xFF09;
-&#x7528;&#x6765;&#x5C01;&#x88C5;&#x7C7B;&#x5728;&#x65B9;&#x6CD5;&#x533A;&#x5185;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</li>
-</ul>
-<p>&#x52A0;&#x8F7D;.class &#x6587;&#x4EF6;&#x7684;&#x65B9;&#x5F0F;</p>
-<ul>
-<li>&#x4ECE;&#x672C;&#x5730;&#x7CFB;&#x7EDF;&#x76F4;&#x63A5;&#x52A0;&#x8F7D;</li>
-<li>&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x4E0B;&#x8F7D; .class &#x6587;&#x4EF6;</li>
-<li>&#x4ECE; zip&#x3001;jar &#x7B49;&#x5F52;&#x6863;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x8F7D; .class &#x6587;&#x4EF6;</li>
-<li>&#x4ECE;&#x4E13;&#x6709;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x63D0;&#x53D6; .class &#x6587;&#x4EF6;</li>
-<li>&#x5C06; Java &#x539F;&#x6587;&#x4EF6;&#x52A8;&#x6001;&#x7F16;&#x8BD1;&#x4E3A; .class &#x6587;&#x4EF6;</li>
-</ul>
+<li>JDK1.7 &#x5F00;&#x59CB;&#x63D0;&#x4F9B;&#x7684;&#x5BF9;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#x7684;&#x5BF9;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#x7684;&#x652F;&#x6301;&#xFF1A; java.lang.invoke.MethodHandle &#x5B9E;&#x4F8B;&#x7684;&#x89E3;&#x6790;&#x7ED3;&#x679C;REF_getStatic&#x3001;REF_putStatic&#x3001;REF_invokeStatic &#x53E5;&#x67C4;&#x5BF9;&#x5E94;&#x7684;&#x7C7B;&#x6CA1;&#x6709;&#x521D;&#x59CB;&#x5316;&#x5219;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x4EEC;&#x3002;</li>
+</ol>
+<h3 id="5-&#x88AB;&#x52A8;&#x4F7F;&#x7528;">5. &#x88AB;&#x52A8;&#x4F7F;&#x7528;</h3>
+<p>&#x9664;&#x4E86;&#x4EE5;&#x4E0A; 7 &#x79CD;&#x65B9;&#x5F0F;&#x4E4B;&#x5916;&#xFF0C;&#x5176;&#x4ED6;&#x4F7F;&#x7528;&#x7C7B;&#x7684;&#x65B9;&#x5F0F;&#x5747;&#x88AB;&#x79F0;&#x4E3A;&#x5BF9;&#x7C7B;&#x7684;&#x88AB;&#x52A8;&#x4F7F;&#x7528;&#xFF0C;&#x90FD;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x7C7B;&#x7684;<strong>&#x521D;&#x59CB;&#x5316;</strong></p>
+<h3 id="6-&#x7C7B;&#x7684;&#x5378;&#x8F7D;">6. &#x7C7B;&#x7684;&#x5378;&#x8F7D;</h3>
+<p>&#x5728;&#x5982;&#x4E0B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;java &#x865A;&#x62DF;&#x673A;&#x4F1A;&#x7ED3;&#x675F;&#x751F;&#x547D;&#x5468;&#x671F;:  </p>
+<ol>
+<li>&#x6267;&#x884C;&#x4E86; System.exit() &#x65B9;&#x6CD5;</li>
+<li>&#x7A0B;&#x5E8F;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#x7ED3;&#x675F;</li>
+<li>&#x7A0B;&#x5E8F;&#x5728;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x4E86;&#x5F02;&#x5E38;&#x6216;&#x8005;&#x9519;&#x8BEF;&#x800C;&#x5BFC;&#x81F4;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;</li>
+<li>&#x7531;&#x4E8E;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x9519;&#x8BEF;&#x800C;&#x5BFC;&#x81F4; java &#x865A;&#x62DF;&#x673A;&#x8FDB;&#x7A0B;&#x7EC8;&#x6B62;</li>
+</ol>
 
                                 
                                 </section>
@@ -238,10 +265,14 @@ java.lang.invoke.MethodHandle &#x5B9E;&#x4F8B;&#x7684;&#x89E3;&#x6790;&#x7ED3;&#
 
             
                 
-                <a href="../" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 说明">
+                <a href="../" class="navigation navigation-prev " aria-label="Previous page: 说明">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="02-jvm-classloader-static-attr.html" class="navigation navigation-next " aria-label="Next page: 1.1 类的静态属性">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -250,7 +281,7 @@ java.lang.invoke.MethodHandle &#x5B9E;&#x4F8B;&#x7684;&#x89E3;&#x6790;&#x7ED3;&#
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"1. 类加载器","level":"1.2","depth":1,"previous":{"title":"说明","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_classloader/01-jvm-classloader.md","mtime":"2019-03-29T13:18:51.309Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-29T13:20:45.878Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"1. 类加载器","level":"1.2","depth":1,"next":{"title":"1.1 类的静态属性","level":"1.2.1","depth":2,"path":"01_classloader/02-jvm-classloader-static-attr.md","ref":"01_classloader/02-jvm-classloader-static-attr.md","articles":[]},"previous":{"title":"说明","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_classloader/01-jvm-classloader.md","mtime":"2019-03-31T10:59:50.520Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-31T11:30:54.421Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
