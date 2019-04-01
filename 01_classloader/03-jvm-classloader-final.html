@@ -192,44 +192,37 @@
                                 
                                 <h1 id="&#x7C7B;&#x52A0;&#x8F7D;&#x5B9E;&#x4F8B;&#x4E4B;&#x5E38;&#x91CF;">&#x7C7B;&#x52A0;&#x8F7D;&#x5B9E;&#x4F8B;&#x4E4B;&#x5E38;&#x91CF;</h1>
 <p>&#x793A;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClassloader</span></span>{
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.UUID;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClassloader</span></span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{
-        <span class="hljs-comment">// &#x5982;&#x4E0B;&#x4E24;&#x884C;&#x8BED;&#x53E5;&#x5206;&#x522B;&#x6267;&#x884C;&#xFF0C;&#x5F53;&#x6267;&#x884C;&#x7B2C;&#x4E00;&#x53E5;&#x65F6;&#xFF0C;&#x8BF7;&#x6CE8;&#x91CA;&#x6389;&#x7B2C;&#x4E8C;&#x53E5;&#xFF0C;&#x5F53;&#x6267;&#x884C;&#x7B2C;&#x4E8C;&#x53E5;&#x65F6;&#xFF0C;&#x6CE8;&#x91CA;&#x6389;&#x7B2C;&#x4E00;&#x53E5;</span>
-        System.out.println(Child.str);
-        System.out.println(Child.str2);
+        System.out.println(Parent.str);
     }
 }
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span></span>{
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String str = <span class="hljs-string">&quot;I&apos;m Parent&quot;</span>;
+    <span class="hljs-comment">// &#x6CE8;&#x610F;&#x4E00;&#x4E0B;&#x4E24;&#x884C;&#x5206;&#x522B;&#x6267;&#x884C;</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String str = <span class="hljs-string">&quot;I&apos;m Parent&quot;</span>;
+    <span class="hljs-comment">// public static final String str = UUID.randomUUID().toString();</span>
     <span class="hljs-keyword">static</span>{
         System.out.println(<span class="hljs-string">&quot;Parent static block running&quot;</span>);
     }
 }
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Parent</span></span>{
-
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String str2 = <span class="hljs-string">&quot;I&apos;m Child&quot;</span>;
-    <span class="hljs-keyword">static</span>{
-        System.out.println(<span class="hljs-string">&quot;Child static block running&quot;</span>);
-    }
-}
 </code></pre>
 <ol>
-<li>&#x5F53;&#x6267;&#x884C; main &#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x53E5;(<code>System.out.println(Child.str)</code>)&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</li>
+<li><code>Parent</code> &#x7C7B;&#x7684;&#x5E38;&#x91CF;&#x4E3A;&#x7F16;&#x8BD1;&#x5668;&#x786E;&#x5B9A;&#x503C;&#x65F6;&#xFF0C;&#x5373;&#xFF0C;<code>str = &quot;I&apos;m Parent&quot;</code> &#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</li>
+</ol>
+<pre><code class="lang-java">I&apos;m Parent
+</code></pre>
+<ol>
+<li><code>Parent</code> &#x7C7B;&#x7684;&#x5E38;&#x91CF;&#x4E3A;&#x8FD0;&#x884C;&#x65F6;&#x786E;&#x5B9A;&#x503C;&#x65F6;&#xFF0C;&#x5373;&#xFF0C;<code>str = UUID.randomUUID().toString()</code> &#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</li>
 </ol>
 <pre><code class="lang-java">Parent static block running
 I&apos;m Parent
 </code></pre>
-<p>&#x7531;<a href="01-jvm-classloader.html">&#x7C7B;&#x7684;&#x52A0;&#x8F7D;</a> &#x53EF;&#x77E5;&#xFF0C;&#x8C03;&#x7528;&#x7C7B;&#x7684;&#x9759;&#x6001;&#x5C5E;&#x6027;&#x5C5E;&#x4E8E;&#x5BF9;&#x7C7B;&#x7684;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#xFF0C;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x4F1A;&#x5BFC;&#x81F4;&#x7C7B;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x4F46;&#x662F;&#x7A0B;&#x5E8F;&#x4E2D;&#x5E76;&#x6CA1;&#x6709;&#x8F93;&#x51FA; <code>Child static block running</code> &#x5185;&#x5BB9;&#x3002;&#x7531;&#x6B64;&#x53EF;&#x77E5;&#xFF0C;&#x5BF9;&#x4E8E;&#x9759;&#x6001;&#x5B57;&#x6BB5;&#x6765;&#x8BF4;&#xFF0C;&#x53EA;&#x6709;&#x76F4;&#x63A5;&#x5B9A;&#x4E49;&#x4E86;&#x8BE5;&#x5B57;&#x6BB5;&#x7684;&#x7C7B;&#x624D;&#x4F1A;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x3002;</p>
-<ol>
-<li>&#x5F53;&#x6267;&#x884C; main &#x65B9;&#x6CD5;&#x7684;&#x7B2C;&#x4E8C;&#x53E5;(<code>System.out.println(Child.str2)</code>)&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</li>
-</ol>
-<pre><code class="lang-java">Parent static block running
-Child static block running
-I&apos;m Child
-</code></pre>
-<p>&#x7531;<a href="01-jvm-classloader.html">&#x7C7B;&#x7684;&#x52A0;&#x8F7D;</a> &#x53EF;&#x77E5;&#xFF0C;&#x8C03;&#x7528;&#x7C7B;&#x7684;&#x9759;&#x6001;&#x5C5E;&#x6027;&#x5C5E;&#x4E8E;&#x5BF9;&#x7C7B;&#x7684;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#xFF0C;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x4F1A;&#x5BFC;&#x81F4;&#x7C7B;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x4F46;&#x662F;&#x7A0B;&#x5E8F;&#x4E2D;&#x9996;&#x5148;&#x8F93;&#x51FA; <code>Child static block running</code> &#x5185;&#x5BB9;&#x3002;&#x7531;&#x6B64;&#x53EF;&#x77E5;&#xFF0C;&#x5F53;&#x4E00;&#x4E2A;&#x7C7B;&#x5728;&#x8FDB;&#x884C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#xFF0C;&#x8981;&#x6C42;&#x5176;&#x7236;&#x7C7B;&#x5FC5;&#x987B;&#x5B8C;&#x5168;&#x521D;&#x59CB;&#x5316;&#x624D;&#x884C;&#x3002;</p>
+<p>&#x7531;<a href="01-jvm-classloader.html">&#x7C7B;&#x7684;&#x52A0;&#x8F7D;</a> &#x53EF;&#x77E5;&#xFF0C;&#x8C03;&#x7528;&#x7C7B;&#x7684;&#x9759;&#x6001;&#x5C5E;&#x6027;&#x5C5E;&#x4E8E;&#x5BF9;&#x7C7B;&#x7684;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#xFF0C;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x4F1A;&#x5BFC;&#x81F4;&#x7C7B;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x4F46;&#x662F;&#x5F53; <code>Parent</code> &#x7C7B;&#x7684;&#x5B57;&#x6BB5;&#x503C;&#x4E3A;&#x7F16;&#x8BD1;&#x5668;&#x53EF;&#x786E;&#x5B9A;&#x7684;&#x5E38;&#x91CF;&#x65F6;&#xFF0C;<code>Parent static block running</code> &#x5E76;&#x672A;&#x8F93;&#x51FA;&#xFF0C;&#x800C;&#x5F53; <code>Parent</code> &#x7C7B;&#x7684;&#x5B57;&#x6BB5;&#x503C;&#x4E3A;&#x8FD0;&#x884C;&#x65F6;&#x624D;&#x80FD;&#x786E;&#x5B9A;&#x7684;&#x503C;&#x65F6;&#xFF0C;&#x9759;&#x6001;&#x4EE3;&#x7801;&#x5757;&#x5F97;&#x5230;&#x6267;&#x884C;&#x3002;</p>
+<p>&#x5E38;&#x91CF;&#x5728;&#x7F16;&#x8BD1;&#x9636;&#x6BB5;&#x4F1A;&#x5B58;&#x5165;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x5E38;&#x91CF;&#x7684;&#x65B9;&#x6CD5;&#x6240;&#x5728;&#x7C7B;&#x7684;&#x5E38;&#x91CF;&#x6C60;&#x4E2D;&#xFF0C;&#x672C;&#x8D28;&#x4E0A;&#xFF0C;&#x8C03;&#x7528;&#x7C7B;&#x5E76;&#x6CA1;&#x6709;&#x76F4;&#x63A5;&#x5F15;&#x7528;&#x5230;&#x5E38;&#x91CF;&#x6240;&#x5728;&#x7684;&#x7C7B;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x4F1A;&#x89E6;&#x53D1;&#x5B9A;&#x4E49;&#x5E38;&#x91CF;&#x7684;&#x7C7B;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x6B64;&#x6848;&#x4F8B;&#x662F;&#x6307;&#x5C06; <code>Parent</code> &#x7C7B;&#x7684;&#x5E38;&#x91CF; <code>str=&quot;I&apos;m Parent&quot;</code> &#x5B58;&#x653E;&#x5230;&#x4E86; <code>MyClassLoader</code> &#x7C7B;&#x7684;&#x5E38;&#x91CF;&#x6C60;&#x4E2D;&#xFF0C;&#x4E4B;&#x540E;&#xFF0C;<code>Parent</code> &#x4E0E; <code>MyClassLoader</code> &#x518D;&#x65E0;&#x4EFB;&#x4F55;&#x5173;&#x7CFB;&#xFF0C;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5C06; <code>Parent</code> &#x5BF9;&#x5E94;&#x7684; <code>class</code> &#x6587;&#x4EF6;&#x5220;&#x9664;&#x6389;&#xFF0C;&#x5BF9;&#x4E8E;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x4E5F;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x5F53;&#x4E00;&#x4E2A;&#x5E38;&#x91CF;&#x503C;&#x5E76;&#x975E;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#x786E;&#x5B9A;&#x65F6;&#xFF0C;&#x90A3;&#x4E48;&#x5176;&#x503C;&#x5C31;&#x4E0D;&#x4F1A;&#x5B58;&#x5165;&#x5230;&#x8C03;&#x7528;&#x7C7B;&#x7684;&#x5E38;&#x91CF;&#x6C60;&#x4E2D;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x7A0B;&#x5E8F;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;&#x4E3B;&#x52A8;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x5E38;&#x91CF;&#x6240;&#x5728;&#x7684;&#x7C7B;&#xFF0C;&#x663E;&#x7136;&#x4F1A;&#x5BFC;&#x81F4;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;&#x521D;&#x59CB;&#x5316;&#x3002;</p>
 
                                 
                                 </section>
@@ -269,7 +262,7 @@ I&apos;m Child
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"1.2 类的常量","level":"1.2.2","depth":2,"previous":{"title":"1.1 类的静态属性","level":"1.2.1","depth":2,"path":"01_classloader/02-jvm-classloader-static-attr.md","ref":"01_classloader/02-jvm-classloader-static-attr.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_classloader/03-jvm-classloader-final.md","mtime":"2019-03-31T11:30:08.474Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-31T11:30:54.421Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"1.2 类的常量","level":"1.2.2","depth":2,"previous":{"title":"1.1 类的静态属性","level":"1.2.1","depth":2,"path":"01_classloader/02-jvm-classloader-static-attr.md","ref":"01_classloader/02-jvm-classloader-static-attr.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_classloader/03-jvm-classloader-final.md","mtime":"2019-04-01T01:52:06.998Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-04-01T01:52:56.121Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
